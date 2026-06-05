@@ -7,10 +7,10 @@ if (window.Telegram && window.Telegram.WebApp) {
   const user = window.Telegram.WebApp.initDataUnsafe.user;
   if (user) {
     if (user.photo_url) {
-      document.getElementById('avatar').innerHTML = `<img src="${user.photo_url}" alt="avatar">`;
+      document.querySelector('avatar').innerHTML = `<img src="${user.photo_url}" alt="avatar">`;
     }
     if (user.first_name) {
-      document.querySelector('.username').textContent = user.first_name;
+      document.querySelector('.user-name').textContent = user.first_name;
     }
   }
 }
