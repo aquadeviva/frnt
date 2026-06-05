@@ -2,6 +2,19 @@
 // tg.ready();
 // tg.expand(); // Растягивает на максимальную высоту
 // tg.requestFullscreen(); // Переводит в полноэкранный режим
+
+if (window.Telegram && window.Telegram.WebApp) {
+  const user = window.Telegram.WebApp.initDataUnsafe.user;
+  if (user) {
+    if (user.photo_url) {
+      document.getElementById('avatar').innerHTML = `<img src="${user.photo_url}" alt="avatar">`;
+    }
+    if (user.first_name) {
+      document.querySelector('.username').textContent = user.first_name;
+    }
+  }
+}
+
 let currentScreen = 'profile';
 let currentTab = 'profile';
 let isAdmin = true;
