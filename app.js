@@ -14,7 +14,7 @@ if (window.Telegram && window.Telegram.WebApp) {
   }
 }
 
-const API_BASE_URL = 'https://deceit-baggage-senate.ngrok-free.dev/';
+const API_BASE_URL = 'https://deceit-baggage-senate.ngrok-free.dev';
 
 let currentScreen = 'profile';
 let currentTab = 'profile';
