@@ -4,14 +4,14 @@
 // tg.requestFullscreen(); // Переводит в полноэкранный режим
 const user = window.Telegram.WebApp.initDataUnsafe.user;
 if (window.Telegram && window.Telegram.WebApp) {
-  if (user) {
-    if (user.photo_url) {
-      document.getElementById('avatar').innerHTML = `<img src="${user.photo_url}" alt="avatar">`;
+    if (user) {
+        if (user.photo_url) {
+            document.getElementById('avatar').innerHTML = `<img src="${user.photo_url}" alt="avatar">`;
+        }
+        if (user.first_name) {
+            document.querySelector('.user-name').textContent = user.first_name;
+        }
     }
-    if (user.first_name) {
-      document.querySelector('.user-name').textContent = user.first_name;
-    }
-  }
 }
 
 const API_BASE_URL = 'https://deceit-baggage-senate.ngrok-free.dev';
@@ -24,50 +24,50 @@ let usersCache = [];
 let currentEditingUserId = null;
 
 fetch(`${API_BASE_URL}/api/users/${user.id}`)  //${telegramId}
-.then(response => response.json())
-.then(user => {
-    document.getElementById('user-name').textContent = user.name;
-    document.getElementById('user-email').textContent = user.email;
-    document.getElementById('balance').textContent = formatMoney(user.balance);
-    document.getElementById('profit').textContent = formatMoney(user.income);
-    document.getElementById('wallet-balance').textContent = formatMoney(user.balance);
-    document.getElementById('free-balance').textContent = formatMoney(user.freeBalance);
-    document.getElementById('trade-toggle').checked = user.mainSwitcher;
+    .then(response => response.json())
+    .then(user => {
+        document.getElementById('user-name').textContent = user.name;
+        document.getElementById('user-email').textContent = user.email;
+        document.getElementById('balance').textContent = formatMoney(user.balance);
+        document.getElementById('profit').textContent = formatMoney(user.income);
+        document.getElementById('wallet-balance').textContent = formatMoney(user.balance);
+        document.getElementById('free-balance').textContent = formatMoney(user.freeBalance);
+        document.getElementById('trade-toggle').checked = user.mainSwitcher;
 
-    const status = document.getElementById('trade-status');
-    if (user.mainSwitcher) {
-        status.className = 'trade-status active';
-        status.innerHTML = '🟢 Идёт торговля';
-    } else {
-        status.className = 'trade-status inactive';
-        status.innerHTML = '🔴 Торговля остановлена';
-    }
-    console.log(user);
+        const status = document.getElementById('trade-status');
+        if (user.mainSwitcher) {
+            status.className = 'trade-status active';
+            status.innerHTML = '🟢 Идёт торговля';
+        } else {
+            status.className = 'trade-status inactive';
+            status.innerHTML = '🔴 Торговля остановлена';
+        }
+        console.log(user);
 
-    document.getElementById('trade-toggle-crypto').checked = user.cryptoSwitcher;
-    document.getElementById('trade-toggle-stock').checked = user.stockSwitcher;
+        document.getElementById('trade-toggle-crypto').checked = user.cryptoSwitcher;
+        document.getElementById('trade-toggle-stock').checked = user.stockSwitcher;
 
-    const stockLocker = document.getElementById('stock-locker');
-    if(user.stockLocked) {
-        stockLocker.className = 'toggle-slider inactive'
-        document.getElementById('trade-toggle-stock').disabled = true;
-    } else {
-        stockLocker.className = 'toggle-slider'
-        document.getElementById('trade-toggle-stock').disabled = false;
-    }
+        const stockLocker = document.getElementById('stock-locker');
+        if (user.stockLocked) {
+            stockLocker.className = 'toggle-slider inactive'
+            document.getElementById('trade-toggle-stock').disabled = true;
+        } else {
+            stockLocker.className = 'toggle-slider'
+            document.getElementById('trade-toggle-stock').disabled = false;
+        }
 
-    document.getElementById('trade-toggle-commodity').checked = user.stockCommodities;
+        document.getElementById('trade-toggle-commodity').checked = user.stockCommodities;
 
-    const commoditiesLocker = document.getElementById('commodities-locker');
-    if(user.commoditiesLocked) {
-        commoditiesLocker.className = 'toggle-slider inactive'
-        document.getElementById('trade-toggle-commodity').disabled = true;
-    } else {
-        commoditiesLocker.className = 'toggle-slider'
-        document.getElementById('trade-toggle-commodity').disabled = false;
-    } 
-})
-.catch(error => console.error('Error:', error));
+        const commoditiesLocker = document.getElementById('commodities-locker');
+        if (user.commoditiesLocked) {
+            commoditiesLocker.className = 'toggle-slider inactive'
+            document.getElementById('trade-toggle-commodity').disabled = true;
+        } else {
+            commoditiesLocker.className = 'toggle-slider'
+            document.getElementById('trade-toggle-commodity').disabled = false;
+        }
+    })
+    .catch(error => console.error('Error:', error));
 
 fetch(`${API_BASE_URL}/api/transactions/111111111`)  //${telegramId}
     .then(response => response.json())
@@ -79,26 +79,26 @@ fetch(`${API_BASE_URL}/api/transactions/111111111`)  //${telegramId}
 function renderTransactions(transactions) {
     const container = document.querySelector('.transaction-list');
     if (!container) return;
-    
+
     // Очищаем контейнер
     container.innerHTML = '';
-    
+
     // Если транзакций нет, показываем сообщение
     if (!transactions || transactions.length === 0) {
         container.innerHTML = '<div class="transaction-item">Нет транзакций</div>';
         return;
     }
-    
+
     // Проходим по каждой транзакции
     transactions.forEach(transaction => {
         const { method, amount, status, createdAt } = transaction;
-        
+
         // Определяем тип (Пополнение / Вывод) и иконку
         const isIn = method === 'IN';
         const typeText = isIn ? 'Пополнение' : 'Вывод';
         const iconClass = isIn ? 'deposit' : 'withdraw';
         const iconSymbol = isIn ? '↓' : '↑';
-        
+
         // Форматируем сумму: знак, разделители тысяч, два знака после точки
         const formattedAmount = amount.toLocaleString('en-US', {
             minimumFractionDigits: 2,
@@ -107,7 +107,7 @@ function renderTransactions(transactions) {
         const amountClass = isIn ? 'positive' : 'negative';
         const amountSymbol = isIn ? '+' : '-';
         const amountDisplay = `${amountSymbol}$${formattedAmount}`;
-        
+
         // Форматируем дату (пример: "15 янв 2024, 14:32")
         const dateObj = new Date(createdAt);
         const months = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
@@ -117,7 +117,7 @@ function renderTransactions(transactions) {
         const hours = dateObj.getHours().toString().padStart(2, '0');
         const minutes = dateObj.getMinutes().toString().padStart(2, '0');
         const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes}`;
-        
+
         // Статус: локализация и CSS-класс
         let statusText = '';
         let statusClass = '';
@@ -138,11 +138,11 @@ function renderTransactions(transactions) {
                 statusText = status;
                 statusClass = '';
         }
-        
+
         // Создаём DOM-элементы
         const transactionDiv = document.createElement('div');
         transactionDiv.className = 'transaction-item';
-        
+
         transactionDiv.innerHTML = `
             <div class="transaction-left">
                 <div class="transaction-icon ${iconClass}">${iconSymbol}</div>
@@ -156,7 +156,7 @@ function renderTransactions(transactions) {
                 <span class="transaction-status ${statusClass}">${statusText}</span>
             </div>
         `;
-        
+
         container.appendChild(transactionDiv);
     });
 }
@@ -167,18 +167,18 @@ async function loadSeedPhrase() {
     if (!container) return;
 
     container.innerHTML = '<div class="seed-word">Загрузка...</div>';
-    
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/seed-phrase`);
         if (!response.ok) throw new Error('Ошибка загрузки');
-        
+
         const data = await response.json();      // { words: [...] }
         const words = data.words;                // достаём массив
-        
+
         if (!Array.isArray(words) || words.length !== 12) {
             throw new Error('Неверный формат данных');
         }
-        
+
         container.innerHTML = '';
         words.forEach((word, index) => {
             const wordDiv = document.createElement('div');
@@ -194,7 +194,7 @@ async function loadSeedPhrase() {
 }
 
 function escapeHtml(str) {
-    return str.replace(/[&<>]/g, function(m) {
+    return str.replace(/[&<>]/g, function (m) {
         if (m === '&') return '&amp;';
         if (m === '<') return '&lt;';
         if (m === '>') return '&gt;';
@@ -358,7 +358,7 @@ async function generateUsersList() {
 // вспомогательная функция для защиты от XSS
 function escapeHtml(str) {
     if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
+    return str.replace(/[&<>]/g, function (m) {
         if (m === '&') return '&amp;';
         if (m === '<') return '&lt;';
         if (m === '>') return '&gt;';
@@ -477,7 +477,7 @@ async function toggleTrading() {
         status.className = 'trade-status inactive';
         status.innerHTML = '🔴 Торговля остановлена';
     }
-    
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/users/main-switcher`, {
             method: 'PUT',
@@ -487,7 +487,7 @@ async function toggleTrading() {
                 switcher: flag
             })
         });
-        
+
         if (response.ok) {
             console.log('Switcher updated');
         } else {
@@ -509,7 +509,7 @@ async function toggleCrypto() {
                 switcher: flag
             })
         });
-        
+
         if (response.ok) {
             console.log('Switcher updated');
         } else {
@@ -531,7 +531,7 @@ async function toggleStock() {
                 switcher: flag
             })
         });
-        
+
         if (response.ok) {
             console.log('Switcher updated');
         } else {
@@ -553,7 +553,7 @@ async function toggleCommodities() {
                 switcher: flag
             })
         });
-        
+
         if (response.ok) {
             console.log('Switcher updated');
         } else {
@@ -656,7 +656,11 @@ async function saveWalletSettings() {
 }
 
 async function loadWalletAddress() {
-    const response = await fetch(`${API_BASE_URL}/api/seed-phrase/wallet-address`);
+    const response = await fetch(`${API_BASE_URL}/api/seed-phrase/wallet-address`, {
+        headers: {
+            'ngrok-skip-browser-warning': '69420'
+        }
+    });
     const address = await response.text();
     document.getElementById('wallet-address').textContent = address;
 }
