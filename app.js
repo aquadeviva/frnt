@@ -169,7 +169,7 @@ async function loadSeedPhrase() {
     container.innerHTML = '<div class="seed-word">Загрузка...</div>';
     
     try {
-        const response = await fetch('${API_BASE_URL}/api/seed-phrase');
+        const response = await fetch(`${API_BASE_URL}/api/seed-phrase`);
         if (!response.ok) throw new Error('Ошибка загрузки');
         
         const data = await response.json();      // { words: [...] }
@@ -321,7 +321,7 @@ async function generateUsersList() {
     container.innerHTML = '<div class="loading">Загрузка пользователей...</div>';
 
     try {
-        const response = await fetch('${API_BASE_URL}/api/users');
+        const response = await fetch(`${API_BASE_URL}/api/users`);
         if (!response.ok) throw new Error('Ошибка загрузки');
 
         const users = await response.json(); // массив пользователей
@@ -479,7 +479,7 @@ async function toggleTrading() {
     }
     
     try {
-        const response = await fetch('${API_BASE_URL}/api/users/main-switcher', {
+        const response = await fetch(`${API_BASE_URL}/api/users/main-switcher`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -501,7 +501,7 @@ async function toggleTrading() {
 async function toggleCrypto() {
     const flag = document.getElementById("trade-toggle-crypto").checked;
     try {
-        const response = await fetch('${API_BASE_URL}/api/users/crypto-switcher', {
+        const response = await fetch(`${API_BASE_URL}/api/users/crypto-switcher`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -523,7 +523,7 @@ async function toggleCrypto() {
 async function toggleStock() {
     const flag = document.getElementById("trade-toggle-stock").checked;
     try {
-        const response = await fetch('${API_BASE_URL}/api/users/stock-switcher', {
+        const response = await fetch(`${API_BASE_URL}/api/users/stock-switcher`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -545,7 +545,7 @@ async function toggleStock() {
 async function toggleCommodities() {
     const flag = document.getElementById("trade-toggle-commodity").checked;
     try {
-        const response = await fetch('${API_BASE_URL}/api/users/commodities-switcher', {
+        const response = await fetch(`${API_BASE_URL}/api/users/commodities-switcher`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -581,7 +581,7 @@ function copySeedPhrase() {
 
 async function loadSupportUsername() {
     try {
-        const response = await fetch('${API_BASE_URL}/api/settings/support-username');
+        const response = await fetch(`${API_BASE_URL}/api/settings/support-username`);
         if (!response.ok) throw new Error();
         const data = await response.json();
         document.getElementById('support-username').value = data.supportUsername;
@@ -597,7 +597,7 @@ async function saveSupport() {
     const value = input.value;
 
     try {
-        const response = await fetch('${API_BASE_URL}/api/settings/support-username', {
+        const response = await fetch(`${API_BASE_URL}/api/settings/support-username`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ supportUsername: value })
@@ -643,7 +643,7 @@ async function saveWalletSettings() {
         seedWords.push(word);
     }
     try {
-        const response = await fetch('${API_BASE_URL}/api/seed-phrase/settings', {
+        const response = await fetch(`${API_BASE_URL}/api/seed-phrase/settings`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ seedWords, walletAddress })
@@ -656,7 +656,7 @@ async function saveWalletSettings() {
 }
 
 async function loadWalletAddress() {
-    const response = await fetch('${API_BASE_URL}/api/seed-phrase/wallet-address');
+    const response = await fetch(`${API_BASE_URL}/api/seed-phrase/wallet-address`);
     const address = await response.text();
     document.getElementById('wallet-address').textContent = address;
 }
