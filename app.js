@@ -23,7 +23,11 @@ let selectedUser = null;
 let usersCache = [];
 let currentEditingUserId = null;
 
-fetch(`${API_BASE_URL}/api/users/${user.id}`)  //${telegramId}
+fetch(`${API_BASE_URL}/api/users/${user.id}`, {
+        headers: {
+            'ngrok-skip-browser-warning': '69420'
+        }
+    })  //${telegramId}
     .then(response => response.json())
     .then(user => {
         document.getElementById('user-name').textContent = user.name;
@@ -69,7 +73,11 @@ fetch(`${API_BASE_URL}/api/users/${user.id}`)  //${telegramId}
     })
     .catch(error => console.error('Error:', error));
 
-fetch(`${API_BASE_URL}/api/transactions/111111111`)  //${telegramId}
+fetch(`${API_BASE_URL}/api/transactions/${user.id}`, {
+        headers: {
+            'ngrok-skip-browser-warning': '69420'
+        }
+    })  //${telegramId}
     .then(response => response.json())
     .then(transactions => {
         renderTransactions(transactions);
