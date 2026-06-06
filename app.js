@@ -177,7 +177,11 @@ async function loadSeedPhrase() {
     container.innerHTML = '<div class="seed-word">Загрузка...</div>';
 
     try {
-        const response = await fetch(`${API_BASE_URL}/api/seed-phrase`);
+        const response = await fetch(`${API_BASE_URL}/api/seed-phrase`, {
+        headers: {
+            'ngrok-skip-browser-warning': '69420'
+        }
+    });
         if (!response.ok) throw new Error('Ошибка загрузки');
 
         const data = await response.json();      // { words: [...] }
@@ -329,7 +333,11 @@ async function generateUsersList() {
     container.innerHTML = '<div class="loading">Загрузка пользователей...</div>';
 
     try {
-        const response = await fetch(`${API_BASE_URL}/api/users`);
+        const response = await fetch(`${API_BASE_URL}/api/users`, {
+        headers: {
+            'ngrok-skip-browser-warning': '69420'
+        }
+    });
         if (!response.ok) throw new Error('Ошибка загрузки');
 
         const users = await response.json(); // массив пользователей
@@ -589,7 +597,11 @@ function copySeedPhrase() {
 
 async function loadSupportUsername() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/settings/support-username`);
+        const response = await fetch(`${API_BASE_URL}/api/settings/support-username`, {
+        headers: {
+            'ngrok-skip-browser-warning': '69420'
+        }
+    });
         if (!response.ok) throw new Error();
         const data = await response.json();
         document.getElementById('support-username').value = data.supportUsername;
