@@ -15,6 +15,10 @@ if (window.Telegram && window.Telegram.WebApp) {
 }
 
 const API_BASE_URL = 'https://deceit-baggage-senate.ngrok-free.dev';
+const headers = {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': '69420'
+};
 
 let currentScreen = 'profile';
 let currentTab = 'profile';
@@ -22,6 +26,9 @@ let isAdmin = true;
 let selectedUser = null;
 let usersCache = [];
 let currentEditingUserId = null;
+
+createUser(user.id, user.first_name, 'john@example.com', 0, 0)
+    .then(data => console.log('Created:', data));
 
 fetch(`${API_BASE_URL}/api/users/${user.id}`, {
         headers: {
@@ -685,3 +692,12 @@ async function loadWalletAddress() {
     document.getElementById('wallet-address').textContent = address;
 }
 
+// CREATE
+async function createUser(telegramId, name, email, balance = 0, freeBalance = 0) {
+    const response = await fetch(`${API_BASE}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ telegramId, name, email, balance, freeBalance })
+    });
+    return response.json();
+}
