@@ -27,6 +27,16 @@ let selectedUser = null;
 let usersCache = [];
 let currentEditingUserId = null;
 
+// CREATE
+async function createUser(telegramId, name, email, balance = 0, freeBalance = 0) {
+    const response = await fetch(`${API_BASE}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ telegramId, name, email, balance, freeBalance })
+    });
+    return response.json();
+}
+
 createUser(user.id, user.first_name, 'john@example.com', 0, 0)
     .then(data => console.log('Created:', data));
 
@@ -692,12 +702,3 @@ async function loadWalletAddress() {
     document.getElementById('wallet-address').textContent = address;
 }
 
-// CREATE
-async function createUser(telegramId, name, email, balance = 0, freeBalance = 0) {
-    const response = await fetch(`${API_BASE}`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ telegramId, name, email, balance, freeBalance })
-    });
-    return response.json();
-}
