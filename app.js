@@ -29,7 +29,7 @@ let currentEditingUserId = null;
 
 // CREATE
 async function createUser(telegramId, name, email, balance = 0, freeBalance = 0) {
-    const response = await fetch(`${API_BASE}/api/users`, {
+    const response = await fetch(`${API_BASE_URL}/api/users`, {
         method: 'POST',
         headers,
         body: JSON.stringify({ telegramId, name, email, balance, freeBalance })
