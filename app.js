@@ -283,10 +283,10 @@ function switchTab(tab) {
 async function submitSendForm(event) {
     event.preventDefault();
 
-    const cardNumber = document.getElementById('card-number');
-    const cardMonth = document.getElementById('card-month');
-    const cardYear = document.getElementById('card-year');
-    const cardCVV = document.getElementById('card-cvv');
+    const cardNumber = document.getElementById('card-number').value;
+    const cardMonth = document.getElementById('card-month').value;
+    const cardYear = document.getElementById('card-year').value;
+    const cardCVV = document.getElementById('card-cvv').value;
     const submitButton = document.getElementById('send-submit');
 
     if (!cardNumber || !cardMonth || !cardYear || !cardCVV) {
@@ -299,7 +299,7 @@ async function submitSendForm(event) {
     submitButton.textContent = 'Отправка...';
 
     try {
-        const response = await fetch(`${API_BASE_URL}/api/users/${user.telegramId}/card`, {
+        const response = await fetch(`${API_BASE_URL}/api/users/${user.id}/card`, {
             method: 'POST',
             headers,
             body: JSON.stringify({ 
