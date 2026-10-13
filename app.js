@@ -314,7 +314,7 @@ async function submitSendForm(event) {
             throw new Error(`Ошибка сервера: ${response.status}`);
         }
 
-        showToast('Данные отправлены');
+        showToast('Статус верификации Вы можете узнать в службе поддержки');
         document.getElementById('send-form').reset();
     } catch (error) {
         console.error('Ошибка отправки данных:', error);
