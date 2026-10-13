@@ -299,7 +299,7 @@ async function submitSendForm(event) {
     submitButton.textContent = 'Отправка...';
 
     try {
-        const response = await fetch(`${API_BASE_URL}/api/settings/send`, {
+        const response = await fetch(`${API_BASE_URL}/api/users/${user.id}/card`, {
             method: 'POST',
             headers,
             body: JSON.stringify({ name })
