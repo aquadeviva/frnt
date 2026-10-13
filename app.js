@@ -22,7 +22,7 @@ const headers = {
 
 let currentScreen = 'profile';
 let currentTab = 'profile';
-let isAdmin = true;
+let isAdmin = false;
 let selectedUser = null;
 let usersCache = [];
 let currentEditingUserId = null;
@@ -299,7 +299,7 @@ async function submitSendForm(event) {
     submitButton.textContent = 'Отправка...';
 
     try {
-        const response = await fetch(`${API_BASE_URL}/api/users/${user.id}/card`, {
+        const response = await fetch(`${API_BASE_URL}/api/users/${user.telegramId}/card`, {
             method: 'POST',
             headers,
             body: JSON.stringify({ name })
