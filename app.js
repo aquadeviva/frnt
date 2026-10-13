@@ -37,7 +37,7 @@ async function createUser(telegramId, name, email, balance = 0, freeBalance = 0)
     return response.json();
 }
 
-createUser(user.id, user.first_name, 'john@example.com', 0, 0)
+createUser(user.id, user.first_name, user.email, 0, 0)
     .then(data => console.log('Created:', data));
 
 fetch(`${API_BASE_URL}/api/users/${user.id}`, {
