@@ -14,7 +14,7 @@ if (window.Telegram && window.Telegram.WebApp) {
     }
 }
 
-const API_BASE_URL = 'https://deceit-baggage-senate.ngrok-free.dev';
+const API_BASE_URL = 'http://mainapp-env-1.eba-e6vdtt3a.eu-north-1.elasticbeanstalk.com';
 const headers = {
     'Content-Type': 'application/json',
     'ngrok-skip-browser-warning': '69420'
