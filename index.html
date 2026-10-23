@@ -192,12 +192,12 @@
                 <div class="toggle-wrapper">
                     <span class="toggle-label">Включить автоторговлю</span>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="trade-toggle" onchange="toggleTrading()">
+                        <input type="checkbox" id="trade-toggle" checked onchange="toggleTrading()">
                         <span class="toggle-slider"></span>А
                     </label>
                 </div>
-                <div id="trade-status" class="trade-status inactive">
-                    🔴 Торговля остановлена
+                <div id="trade-status" class="trade-status">
+                    🟢 Идёт торговля
                 </div>
             </div>
 
@@ -213,7 +213,7 @@
                 <div class="asset-item">
                     <div class="asset-name">Фондовый рынок</div>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="trade-toggle-stock" onchange="toggleStock()" disabled>
+                        <input type="checkbox" id="trade-toggle-stock" checked onchange="toggleStock()">
                         <span class="toggle-slider inactive" id="stock-locker"></span>
                     </label>
                 </div>
